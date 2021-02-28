@@ -132,3 +132,20 @@ Benefit of Message Queues:
   Decoupled:
      - coupled only to location and message format
      - messge format can be in json or xml.
+     
+  Message Queue - Challenges:
+     - No messaging order
+          - build application assuming message can arrive out of order(application level workflow) eg email notification is send only after account has been created
+          - use message broker supporting partial ordering like activemq message group
+              - message group: message with same groud id are send to same consumer
+              - ????????? read two paper about message ordering
+    - Message Requeueing
+         - make consumer indepotent
+         - depend on at-least-oce delivery than exact once delivery which makes system reboust and put less constraint on the queue and it worker.
+         - not all operation are indempotent
+  Race Condition more likely:
+         - Code review with an explicit search for race condition and out of order processing bugs
+         
+  Risk of Increased Conplexity :
+     - document dependency and the overarching message flow
+     
