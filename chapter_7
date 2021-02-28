@@ -34,8 +34,7 @@ Message Consumer
       - connect to priodically to queue and consume fixed or all message for consumption.
       - refered as pull model
       - use when message are added to queue rarely or network connectivity is unreliable.
-      Eg mobile ap pulling message from the queue as connection may be lost any point
-      
+      Eg mobile ap pulling message from the queue as connection may be lost any point   
   demon like:
      - run in infinite loop and has constant connection to queue. 
      - blocks on socket read operation 
@@ -92,3 +91,18 @@ Custom Routing Rules:
    - feature set 
    - availability of tools and libarary for your language. 
  
+Message Infrastructure:
+  -  seperate worker into different set of server, so there scalability is not blocked by scalability of other component
+  - there is limit on the throughput of a queue because of the message to be delivered to all connected subscriber. 
+  Rabbitmq and AcitveMq should work for throughput of tens thousand messge per second outof box
+  - For hundered of thousand message per second, we will need to add custom sharding mechanism into the application 
+  to distribute message to mutiple queue. Which will allow to scale by adding multiple more message broker.
+To decide on broker and concern with broker scalability :
+  Use below mmetrics
+     - Number of message published per second
+     - Average message size
+     - Number of message consumed per second
+     - Number of concurrent publisher and consumers
+     - if message persist is needed( broker crash message loss)
+     - if message acknoledgement is needed( no message loss during consumer crash)
+   
