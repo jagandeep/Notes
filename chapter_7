@@ -40,8 +40,55 @@ Message Consumer
      - run in infinite loop and has constant connection to queue. 
      - blocks on socket read operation 
      - push model 
-Different Subscription Model:
- - read from queue 
- - direct worker queue( point to Point)
- - pub / sub 
- - custom routing rules
+     
+ Different Subscription Model:
+   - read from queue 
+   - direct worker queue( point to Point)
+   - pub / sub 
+   - custom routing rules
+   
+ Direct work Queue:
+  - one queue and multiple producer or consumer
+  - only one consumer consumes the message
+  - sutable for distribution of time consuming task
+  - best when consumer are stateless and uniform
+     - replacing failure node is easy as swapping
+     - scalling by adding worker node which increase overall throughput.  
+  eg: sending out email, processing video, resizing image or uploading content to third party web service. 
+  
+ Publisher/Subscriber Method:
+  - message published to topic and copy of message delivered to all consumer subscribed to topic.
+  - consumer have to connect to broker and declare which topic they are interested in.
+  - each message send to private queue of each consumer
+ eg: publishing message for every purchase to  topic and consumer could be shipping provide and loyality program. 
+ In future could be purachase confirmation email with pdf.
+ - competing consumer in which consumber subscribing to same queue or message are distributed among consumers.
+ 
+Custom Routing Rules:
+ - Rabbit MQ allow based on test pattern matching 
+ - ActiveMQ use camel extension to create advance routing rules.
+ eg: logging and alerting based on pattern matching. Logging Queue which accepts all logs and 
+ Alert queue which gets all critical error and all sev 1 support ticket. Then File logger reads
+ all logs from Logging queue and save to file. Where as Alert Generator generates operator notification.
+ 
+ Messaging Protocol :
+  - used to transport message from producer to consumer
+  AMQP - Advance Message Queuing Protocal 
+     - standard and wide support in product.
+     - various feacture like reliable message delivery, delivery guruntee, transaction  and other advance feature
+     - all programig lanaguage have a cclient
+     - both activemq and rabbitmq support it.
+     - use it were ever possible
+ STOMP - streaming text Oriented Messaging Protocol
+    - minimalist protocol
+    - stateless and test based
+    - not much performance head
+    - advance feature need to be implemented
+ JMS : java messaging sevice
+    - java based langauges 
+    - if need to integrate different system use others
+    
+ How to make a decision which protocol to use:(transfering message not a concern)
+   - feature set 
+   - availability of tools and libarary for your language. 
+ 
