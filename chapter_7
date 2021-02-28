@@ -1,7 +1,3 @@
-# Notes
-
-Book: Web Scalability for Startup Engineers
-
 Chapter 7 : Asynchronous Programming
 
 Synchronous programming : Caller calls and wait for the call to complete
@@ -12,8 +8,6 @@ Blocking : means waiting for operation to finish.
 Blocking can be CPU or I/O
 CPU means waiting for compuation to finish
 I/O means waiting for reading from the database, file system, network or user inpput are all example of i/o.
-
-
 Message Queue
 - A way to archive asynchronous/non blocking processing in application designed for synchnronous programming 
 - decouples producer and consumer which allowes them to scale indepenently.
@@ -30,3 +24,24 @@ Message Broker
  - high concrrency 
  - high throuput 
  - fast message enque
+
+Message Consumer
+ - recieve and process message 
+ - should not know anything about producer
+ 
+ Two typesw of consumer:
+   cron like : 
+      - connect to priodically to queue and consume fixed or all message for consumption.
+      - refered as pull model
+      - use when message are added to queue rarely or network connectivity is unreliable.
+      Eg mobile ap pulling message from the queue as connection may be lost any point
+      
+  demon like:
+     - run in infinite loop and has constant connection to queue. 
+     - blocks on socket read operation 
+     - push model 
+Different Subscription Model:
+ - read from queue 
+ - direct worker queue( point to Point)
+ - pub / sub 
+ - custom routing rules
