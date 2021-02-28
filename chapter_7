@@ -97,6 +97,7 @@ Message Infrastructure:
   Rabbitmq and AcitveMq should work for throughput of tens thousand messge per second outof box
   - For hundered of thousand message per second, we will need to add custom sharding mechanism into the application 
   to distribute message to mutiple queue. Which will allow to scale by adding multiple more message broker.
+  
 To decide on broker and concern with broker scalability :
   Use below mmetrics
      - Number of message published per second
@@ -105,4 +106,29 @@ To decide on broker and concern with broker scalability :
      - Number of concurrent publisher and consumers
      - if message persist is needed( broker crash message loss)
      - if message acknoledgement is needed( no message loss during consumer crash)
-   
+
+Benefit of Message Queues:  
+   Enable Asynchronous Processing: 
+          - interacting with remote server
+          - low value processing in critical path( low value send to queue)
+          - Resource intensive work
+          - independent processing for high and low priority jobs
+   Easier Scalability :
+       - by adding more producer and consumer
+       - no configuration required only connect to message broker
+   Handling message spikes:
+       - by buffering message in queue and finally producer catch up
+       - back pressure 
+             - buffering in queue 
+             - buffereing in producer
+             - buffering in consumer( run out of memory)
+             - droping message 
+  Isolating Failure
+       - failure of producer or consumer doesnt impact other.
+       - removing functionality from critical path ( make fault tolerent)
+       - multiple worker and producer make system fault tolerent ( as one fail only reduces throughput not availability)
+       - self healing by adding replacement worker and heal by catching up with the queue.
+       - simplify maintainence by independently stating and stoping consumer
+  Decoupled:
+     - coupled only to location and message format
+     - messge format can be in json or xml.
